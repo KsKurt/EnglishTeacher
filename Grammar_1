@@ -1,0 +1,54 @@
+import telebot
+from telebot import types
+
+TOKEN = '5119857617:AAGXjeqM78JCMNamF_7aLYKjPRtug1nGahM'
+
+bot = telebot.TeleBot(TOKEN)
+
+#Отдел Меню
+@bot.message_handler(commands=['start'])
+def start(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    bn_gram = types.KeyboardButton('~Грамматика~')
+
+    markup.add(bn_gram)
+    bot.send_message(message.chat.id, 'Меню', reply_markup=markup)
+
+
+bot.polling(none_stop=True)
+
+#Грамматика
+
+@bot.message_handler(content_types=['text'])
+def bot_message(message):
+    if message.text == '~Грамматика~':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        bn_sysh = types.KeyboardButton('Имя существительное')
+        bn_mes = types.KeyboardButton('Местоимение')
+        bn_gl = types.KeyboardButton('Глагол')
+        bn_chis = types.KeyboardButton('Числительное')
+        bn_back = types.KeyboardButton('Назад')
+
+        bot.send_message(message.chat.id, '~Грамматика~', reply_markup=markup)
+
+    elif message.text == 'Имя существительное':
+        inf_sysh = open('theory/sysh.txt', 'rd')
+        bot.send_message(message.chat.id, inf_sysh)
+
+    elif message.text == 'Местоимение':
+        inf_mes = open('theory/mes.txt', 'rd')
+        bot.send_message(message.chat.id, inf_mes)
+
+    elif message.text == 'Глагол':
+        inf_gl = open('theory/gl.txt', 'rd')
+        bot.send_message(message.chat.id, inf_gl)
+
+    elif message.text == 'Числительное':
+        inf_chis = open('theory/chis.txt', 'rd')
+        bot.send_message(message.chat.id, inf_chis)
+
+    elif message.text == 'Назад':
+
+        # меню Ксении
+
+        bot.send_message(message.chat.id, 'Назад')  # , reply_markup=markup)
