@@ -1,0 +1,27 @@
+from aiogram import Bot, types
+from aiogram.dispatcher import Dispatcher
+from aiogram.utils import executor
+
+TOKEN = '5163107814:AAEKHPmUI--Egq8lZyerLCNUrRxk1QC-Z8E'
+bot = Bot(token=TOKEN)
+dp = Dispatcher(bot)
+
+@dp.message_handler(commands='start')
+async def send_welcome(message: types.Message):
+    await message.answer('Привет, я твой учитель по английскому язку. Для начала мне нужно определить твой уровень владения языка,давай пройдем тест')
+
+@dp.message_handler(commands='Test')
+async def fnc_test(message: types.Message):
+    keyboard = types.ReplyKeyboardMarkup()
+    btn1 = 'Test'
+    keyboard.add(btn1)
+    await message.answer('Скоро появится тест', reply_markup:keyboard)
+
+@dp.message_handler(commands='Grammar')
+async def fnc_grammar(message: types.Message):
+    keyboard = types.ReplyKeyboardMarkup()
+    btn2 = 'Grammar'
+    keyboard.add(btn2)
+    await message.answer('Скоро появится грамматика', reply_markup:keyboard)
+    
+executor.start_polling(dp)
