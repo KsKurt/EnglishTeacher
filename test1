@@ -1,0 +1,30 @@
+def pre_poll(message):
+    data = [res[1], res[2], res[3], res[4]]
+    random.shuffle(data)
+    return bot.send_poll(chat_id=message.chat.id, question=res[0],
+                         is_anonymous=False, options=data, type="quiz",
+                         correct_option_id=data.index(res[1]))
+
+@bot.poll_answer_handler(func=lambda message: True)
+def my_poll(message):
+    data = [res[1], res[2], res[3], res[4]]
+    random.shuffle(data)
+    if [ans] == message.options_ids:
+        correct_count += 1
+        if count != 10:
+            bot.send_poll(chat_id=message.user.id, question=res[0],
+                      is_anonymous=False, options=data, type="quiz",
+                      correct_option_id=data.index(res[1]))
+    else:
+        bot.send_message(message.user.id, 
+                 f'Тестирование завершено.\nВерных ответов {correct_count} из 10.')
+
+@dp.poll_answer_handler()
+async def handle_poll_answer(quiz_answer: PollAnswer):
+    # ((проверка ответа))
+    if my_quiz.poll.correct_option_id == quiz_answer.option_ids[0]:
+        await bot.send_message(quiz_answer.user.id, 'Правильно! Идём дальше')
+    else:
+        await bot.sned_message(quiz_answer.user.id, 'Жаль, но это неправильный ответ')
+
+ await bot.send_poll(message.chat.id, 'your name?', ['Who’s', 'What’s', 'How’s', 'Why’s'], type='quiz', correct_option_id=0, is_anonymous=False)
