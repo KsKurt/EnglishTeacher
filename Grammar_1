@@ -1,17 +1,23 @@
-import telebot
-from telebot import types
+
+from aiogram import Bot, types
+from aiogram.dispatcher import Dispatcher
+from aiogram.utils import executor
 
 TOKEN = '5119857617:AAGXjeqM78JCMNamF_7aLYKjPRtug1nGahM'
-
-bot = telebot.TeleBot(TOKEN)
+bot = Bot(token=TOKEN)
+dp = Dispatcher(bot)
 
 #Отдел Меню
 @bot.message_handler(commands=['start'])
 def start(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    bn_gram = types.KeyboardButton('~Грамматика~')
+    bn_gram1 = types.KeyboardButton('~Грамматика_lvl-1~')
+    bn_gram2 = types.KeyboardButton('~Грамматика_lvl-2~')
+    bn_gram3 = types.KeyboardButton('~Грамматика_lvl-3~')
 
-    markup.add(bn_gram)
+    markup.add(bn_gram1)
+    markup.add(bn_gram2)
+    markup.add(bn_gram3)
     bot.send_message(message.chat.id, 'Меню', reply_markup=markup)
 
 
@@ -52,3 +58,68 @@ def bot_message(message):
         # меню Ксении
 
         bot.send_message(message.chat.id, 'Назад')  # , reply_markup=markup)
+
+@bot.message_handler(content_types=['text'])
+def bot_message(message):
+    if message.text == '~Грамматика~':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        bn_sysh2 = types.KeyboardButton('Имя существительное')
+        bn_mes2 = types.KeyboardButton('Местоимение')
+        bn_gl2 = types.KeyboardButton('Глагол')
+        bn_chis2 = types.KeyboardButton('Числительное')
+        bn_back2 = types.KeyboardButton('Назад')
+
+        bot.send_message(message.chat.id, '~Грамматика~', reply_markup=markup)
+
+    elif message.text == 'Имя существительное':
+        inf_sysh2 = open('theory/sysh2.txt', 'rd')
+        bot.send_message(message.chat.id, inf_sysh2)
+
+    elif message.text == 'Местоимение':
+        inf_mes2 = open('theory/mes2.txt', 'rd')
+        bot.send_message(message.chat.id, inf_mes2)
+
+    elif message.text == 'Глагол':
+        inf_gl2 = open('theory/gl2.txt', 'rd')
+        bot.send_message(message.chat.id, inf_gl2)
+
+    elif message.text == 'Числительное':
+        inf_chis2 = open('theory/chis2.txt', 'rd')
+        bot.send_message(message.chat.id, inf_chis2)
+
+    elif message.text == 'Назад':
+
+        # меню Ксении
+
+        bot.send_message(message.chat.id, 'Назад')  # , reply_markup=markup)
+
+@bot.message_handler(content_types=['text'])
+def bot_message(message):
+    if message.text == '~Грамматика~':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        bn_used_to = types.KeyboardButton('Имя существительное')
+        bn_mes3 = types.KeyboardButton('Местоимение')
+        bn_gl3 = types.KeyboardButton('Глагол')
+        bn_back3 = types.KeyboardButton('Назад')
+
+        bot.send_message(message.chat.id, '~Грамматика~', reply_markup=markup)
+
+    elif message.text == 'Имя существительное':
+        inf_used_to = open('theory/used_to.txt', 'rd')
+        bot.send_message(message.chat.id, inf_used_to)
+
+    elif message.text == 'Местоимение':
+        inf_mes3 = open('theory/mes3.txt', 'rd')
+        bot.send_message(message.chat.id, inf_mes3)
+
+    elif message.text == 'Глагол':
+        inf_gl3 = open('theory/gl3.txt', 'rd')
+        bot.send_message(message.chat.id, inf_gl3)
+
+    elif message.text == 'Назад':
+
+        # меню Ксении
+
+        bot.send_message(message.chat.id, 'Назад')  # , reply_markup=markup)
+
+executor.start_polling(dp)
