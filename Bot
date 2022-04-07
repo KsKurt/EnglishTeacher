@@ -1,27 +1,45 @@
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
+from aiogram.types import ReplyKeyboardRemove, \
+    ReplyKeyboardMarkup, KeyboardButton, \
+    InlineKeyboardMarkup, InlineKeyboardButton
 
-TOKEN = '5163107814:AAEKHPmUI--Egq8lZyerLCNUrRxk1QC-Z8E'
+TOKEN = '5163107814:AAGHXXwl2CjlGNVVT2cun9Ris2TSmHHNZWw'
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
+#markup_start = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True). add(bt_start)
+
+
+
+#Start
+bt_start = KeyboardButton('start')
+bt_test = KeyboardButton ('/test')
+bt_grammar = KeyboardButton ('/grammar')
+bt_book = KeyboardButton ('/book')
+
+
+markup_menu = ReplyKeyboardMarkup(resize_keyboard=True).add(bt_test).add(bt_grammar).add(bt_book)
+markup_test = ReplyKeyboardMarkup(resize_keyboard=True).add(bt_test)
+markup_grammar = ReplyKeyboardMarkup(resize_keyboard=True).add(bt_grammar)
+markup_book = ReplyKeyboardMarkup(resize_keyboard=True).add(bt_book)
+
 @dp.message_handler(commands='start')
 async def send_welcome(message: types.Message):
-    await message.answer('Привет, я твой учитель по английскому язку. Для начала мне нужно определить твой уровень владения языка,давай пройдем тест')
+    await message.answer('Привет, я твой учитель по английскому язку. Для начала мне нужно определить твой уровень владения языка,давай пройдем тест', reply_markup=markup_menu)
 
-@dp.message_handler(commands='Test')
+#Menu
+@dp.message_handler(commands='test')
 async def fnc_test(message: types.Message):
-    keyboard = types.ReplyKeyboardMarkup()
-    btn1 = 'Test'
-    keyboard.add(btn1)
-    await message.answer('Скоро появится тест', reply_markup:keyboard)
+ await message.answer('https://readytospeak.ru/test-na-opredelenie-urovnya-yazika/', reply_markup=markup_test)
 
-@dp.message_handler(commands='Grammar')
-async def fnc_grammar(message: types.Message):
-    keyboard = types.ReplyKeyboardMarkup()
-    btn2 = 'Grammar'
-    keyboard.add(btn2)
-    await message.answer('Скоро появится грамматика', reply_markup:keyboard)
-    
+@dp.message_handler(commands='grammar')
+async def fnc_gr(message: types.Message):
+ await message.answer('Грамматика', reply_markup=markup_grammar)
+
+@dp.message_handler(commands='book')
+async def fnc_bk(message: types.Message):
+ await message.answer('Список книг', reply_markup=markup_book)
+
 executor.start_polling(dp)
